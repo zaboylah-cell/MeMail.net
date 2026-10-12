@@ -21,5 +21,26 @@ A production release needs a secure backend, OAuth-based provider authorization,
 ## Run
 Open `index.html` in a modern browser. No build step or third-party dependencies are required.
 
-## GitHub Pages
+
+## Website and downloads
+
+- **Website version:** https://zaboylah-cell.github.io/MeMail.net/ (available after GitHub Pages is enabled in repository Settings → Pages)
+- **Download ZIP source:** https://github.com/zaboylah-cell/MeMail.net/archive/refs/heads/main.zip
+- **Download TAR.GZ source:** https://github.com/zaboylah-cell/MeMail.net/archive/refs/heads/main.tar.gz
+- **Repository:** https://github.com/zaboylah-cell/MeMail.net
+
+### Platform availability
+
+| Platform | Current option | Native installer |
+|---|---|---|
+| Windows | Website in a modern browser; source ZIP | Not built yet |
+| macOS | Website in Safari/Chrome; source ZIP | Not built yet |
+| Linux | Website in a modern browser; source TAR.GZ/ZIP | Not built yet |
+| Android | Website in Chrome or another browser | Android package not built |
+| iPhone / iPad | Website in Safari | iOS app not built |
+| ChromeOS | Website in Chrome | ChromeOS package not built |
+| Other systems | Website in a modern browser | Not built yet |
+
+The source archives are provided by GitHub and contain the project source, not a signed native installer. Do not treat a platform as having an installer until an actual release asset is published and tested. Enable GitHub Pages for the `main` branch and repository root to make the website URL live.
+\n## GitHub Pages
 This repository can be published as a static project site by enabling Pages for the `main` branch and repository root in Settings → Pages. GitHub Pages supports top-level `index.html` entry files; publishing may take several minutes.
