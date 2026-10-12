@@ -44,3 +44,22 @@ Open `index.html` in a modern browser. No build step or third-party dependencies
 The source archives are provided by GitHub and contain the project source, not a signed native installer. Do not treat a platform as having an installer until an actual release asset is published and tested. Enable GitHub Pages for the `main` branch and repository root to make the website URL live.
 \n## GitHub Pages
 This repository can be published as a static project site by enabling Pages for the `main` branch and repository root in Settings → Pages. GitHub Pages supports top-level `index.html` entry files; publishing may take several minutes.
+
+
+## Email-provider support: current status
+
+MeMail.net is currently a **front-end preview**, not yet a connected mail client. It includes a provider directory for Gmail/Google Workspace, Outlook.com/Hotmail/Live, Microsoft 365/Exchange, Yahoo, iCloud, AOL, Proton Mail, Zoho, Fastmail, GMX, Mail.com, Yandex, Tuta, Mailbox.org, Runbox, StartMail, Posteo, Hushmail, ISP/university accounts, custom IMAP/SMTP, and support inboxes. At this stage, adding a provider saves a local label only; it does **not** sign in, sync messages, or send real email.
+
+### What is required for real email
+
+A secure multi-provider client needs provider-authorized sign-in (OAuth where supported), a backend for secure token handling and mailbox synchronization, and provider-specific adapters. IMAP/SMTP support also needs a secure server-side connection layer; browser-only HTML must never ask users for provider passwords. Some encrypted providers (such as Proton Mail and Tuta) may require their own supported bridge/API or provider-specific integration rather than generic IMAP.
+
+### Planned build order
+
+1. Keep improving the Gmail/Outlook-style inbox UI: folders, labels, search, selection, bulk actions, attachments, drafts, and message details.
+2. Implement OAuth and read-only mailbox sync for Gmail and Microsoft first.
+3. Add Yahoo and iCloud where their authorization/configuration permits.
+4. Add standards-based IMAP/SMTP for compatible providers through a secure backend.
+5. Add provider-specific integrations and package desktop/mobile apps only after the core sync is tested.
+
+Do not enter email passwords into the current preview. The native installer links are placeholders until real packages are built.
