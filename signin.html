@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f7fc">
+<title>Sign in · MeMail.net</title>
+<style>
+:root{--ink:#20243a;--muted:#747b90;--line:#e7e8f2;--accent:#6659d9;--bg:#f6f6fc}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(ellipse at 10% 5%,#e8e5ff 0,transparent 38%),radial-gradient(ellipse at 95% 90%,#dff8ee 0,transparent 35%),var(--bg);display:grid;place-items:center;padding:24px}
+.wrap{width:min(100%,430px)}.brand{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:24px}.logo{height:44px;width:44px;border-radius:15px;background:linear-gradient(135deg,#7868f2,#5046c5);display:grid;place-items:center;color:white;box-shadow:0 8px 18px #6659d92c}.brand strong{display:block;font-size:23px;letter-spacing:-.8px}.brand small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.card{background:#ffffffed;border:1px solid #fff;border-radius:24px;padding:30px;box-shadow:0 22px 65px #30286c12}.mascot{display:flex;justify-content:center;margin-bottom:10px}.mascot svg{width:76px;height:76px}.eyebrow{text-align:center;text-transform:uppercase;letter-spacing:1.6px;font-size:10px;font-weight:850;color:var(--accent)}h1{text-align:center;font-size:28px;letter-spacing:-1px;margin:8px 0 8px}.intro{text-align:center;color:var(--muted);font-size:13px;line-height:1.65;margin:0 auto 22px;max-width:300px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#f1f1f9;border-radius:12px;padding:4px;margin-bottom:20px}.tabs button{border:0;border-radius:9px;background:transparent;padding:11px;font:inherit;font-size:13px;font-weight:750;color:var(--muted);cursor:pointer}.tabs button.active{background:#fff;color:var(--accent);box-shadow:0 2px 8px #28205a0d}
+label{display:block;font-size:12px;font-weight:750;margin:14px 0 7px}input{width:100%;border:1px solid #dfe1ed;border-radius:11px;padding:13px 14px;font:inherit;font-size:14px;outline:none;background:#fff}input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #6659d91b}.primary,.provider,.demo{width:100%;border-radius:11px;padding:13px 14px;font:inherit;font-size:13px;font-weight:800;cursor:pointer}.primary{border:0;background:var(--accent);color:white;margin-top:16px}.primary:hover{background:#5448c7}.divider{display:flex;align-items:center;gap:12px;color:#a0a5b5;font-size:11px;margin:19px 0}.divider:before,.divider:after{content:"";height:1px;background:var(--line);flex:1}.provider{border:1px solid var(--line);background:#fff;color:var(--ink);margin-bottom:9px;display:flex;justify-content:center;align-items:center;gap:9px}.provider:hover,.demo:hover{background:#f8f7ff}.provider[disabled]{opacity:.48;cursor:not-allowed}.demo{border:1px solid #dcd8ff;background:#f3f1ff;color:#5146c5;margin-top:2px}.notice{display:none;margin-top:14px;padding:12px;border-radius:10px;background:#fff6e6;color:#75521b;font-size:12px;line-height:1.55}.notice.show{display:block}.fine{text-align:center;color:#8b91a3;font-size:10px;line-height:1.6;margin:18px 10px 0}.back{text-align:center;margin-top:20px}.back a{color:var(--accent);text-decoration:none;font-size:12px;font-weight:750}.footer{text-align:center;color:#999eb0;font-size:10px;margin-top:22px}
+@media(max-width:480px){body{padding:15px}.card{padding:23px 19px}.brand{margin-bottom:17px}h1{font-size:25px}}
+</style>
+</head>
+<body><main class="wrap">
+  <div class="brand"><div class="logo"><svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M3 6.5 12 13l9-6.5M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><strong>MeMail.net</strong><small>Your mail, together.</small></div></div>
+  <section class="card">
+    <div class="mascot"><svg viewBox="0 0 80 80" fill="none" aria-label="MeMail little guy mascot"><circle cx="40" cy="40" r="39" fill="#E8E5FF"/><path d="M17 70c2-13 10-20 23-20s21 7 23 20" fill="#6659D9"/><path d="M27 58c3 5 8 8 13 8s10-3 13-8l-4-11H31z" fill="#fff"/><path d="M27 33c0-13 5-21 14-21s14 8 14 21v7c0 11-6 18-14 18S27 51 27 40z" fill="#FFD8B5"/><path d="M26 34c-3-15 4-24 16-24 10 0 17 7 15 20l-5-2-4-9c-5 6-12 9-22 9z" fill="#493D39"/><circle cx="35" cy="35" r="1.7" fill="#493D39"/><circle cx="46" cy="35" r="1.7" fill="#493D39"/><path d="M35 43c3 3 7 3 10 0" stroke="#B96858" stroke-width="1.8" stroke-linecap="round"/><circle cx="29.5" cy="40" r="3" fill="#F7A6A1" fill-opacity=".65"/><circle cx="51.5" cy="40" r="3" fill="#F7A6A1" fill-opacity=".65"/><path d="M19 65c-4-1-7-5-7-10m49 10c4-1 7-5 7-10" stroke="#6659D9" stroke-width="3" stroke-linecap="round"/></svg></div>
+    <div class="eyebrow">Welcome to your inbox</div><h1 id="title">Sign in to MeMail</h1><p class="intro" id="intro">One home for your email. Sign in to continue or create an account to get started.</p>
+    <div class="tabs" role="tablist"><button class="active" id="signinTab" type="button">Sign in</button><button id="signupTab" type="button">Create account</button></div>
+    <form id="emailForm"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required><button class="primary" type="submit" id="emailContinue">Continue with email</button></form>
+    <div class="divider">or connect a mailbox</div>
+    <button class="provider" id="google" type="button"><span style="font-weight:900;color:#4285F4">G</span> Continue with Google</button>
+    <button class="provider" id="microsoft" type="button"><span style="font-weight:900;color:#2674D9">▦</span> Continue with Microsoft</button>
+    <button class="demo" id="demo" type="button">Explore MeMail preview</button>
+    <div class="notice" id="notice" role="status"></div>
+    <p class="fine">Real sign-in needs the secure MeMail backend and provider authorization. This GitHub Pages preview does not create accounts or collect passwords. Never enter your email password on this demo page.</p>
+  </section>
+  <div class="back"><a href="./index.html">← Back to inbox preview</a></div><div class="footer">MeMail.net · Your mail, together.</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);let mode="signin";
+function setMode(next){mode=next;$("signinTab").classList.toggle("active",mode==="signin");$("signupTab").classList.toggle("active",mode==="signup");$("title").textContent=mode==="signin"?"Sign in to MeMail":"Create your MeMail account";$("intro").textContent=mode==="signin"?"One home for your email. Sign in to continue or connect a mailbox.":"Create your account to bring your email together in one place.";$("emailContinue").textContent=mode==="signin"?"Continue with email":"Create account";$("notice").classList.remove("show")}
+$("signinTab").onclick=()=>setMode("signin");$("signupTab").onclick=()=>setMode("signup");
+function note(msg){$("notice").textContent=msg;$("notice").classList.add("show")}
+$("emailForm").addEventListener("submit",e=>{e.preventDefault();note("Email/password authentication is not configured yet. No password has been requested or saved. To enable secure sign-in, MeMail needs a deployed authentication backend.");});
+async function providerLogin(provider){try{const r=await fetch("/api/status",{credentials:"same-origin"});if(!r.ok)throw new Error("backend unavailable");const status=await r.json();if(provider==="google"&&status.googleConfigured)location.href="/auth/google";else if(provider==="microsoft"&&status.microsoftConfigured)location.href="/auth/microsoft";else note("The "+(provider==="google"?"Google":"Microsoft")+" sign-in backend is not configured on this website yet. This static GitHub Pages preview cannot complete OAuth sign-in.");}catch{note("Secure provider sign-in is not connected to this static website yet. The buttons will work once the MeMail backend is deployed and configured.");}}
+$("google").onclick=()=>providerLogin("google");$("microsoft").onclick=()=>providerLogin("microsoft");$("demo").onclick=()=>location.href="./index.html";
+</script>
+</body></html>
