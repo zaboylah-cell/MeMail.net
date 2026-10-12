@@ -164,7 +164,7 @@ async function syncConnectedMailboxes(){
     if(status.microsoftConnected)accounts.push({provider:"Outlook",email:status.microsoftEmail||"Connected mailbox"});
     save();render();
     const banner=document.querySelector(".demo-banner");
-    if(banner){banner.innerHTML=live.length?'<span>✓</span><div><b>Unified inbox connected:</b> Showing '+live.length+' real message(s) from your connected Gmail and Outlook mailboxes. Messages are merged into one list.</div>':'<span>ⓘ</span><div><b>Mailbox connected:</b> Sign-in worked, but no inbox messages were returned. Try refresh or reconnect your account.</div>';}
+    if(banner){banner.innerHTML=live.length?'<span>✓</span><div><b>Unified inbox connected:</b> Showing '+live.length+' real message(s) from your connected Gmail and Outlook mailboxes. Messages are merged into one list.</div>':(status.googleConnected||status.microsoftConnected)?'<span>ⓘ</span><div><b>Mailbox connected:</b> Sign-in worked, but no inbox messages were returned. Try refresh or reconnect your account.</div>':'<span>ⓘ</span><div><b>No mailboxes connected yet:</b> Choose + Add an account to connect a supported provider. The interface will combine connected messages here.</div>';}
   }catch{ /* GitHub Pages is static; the API becomes available on the hosted backend. */ }
 }
 render();
