@@ -14,7 +14,7 @@
 - Responsive layout for desktop and mobile
 
 ## Important: current status
-This is a **front-end demo** with sample messages. It does not log in to Gmail, Yahoo, Outlook, iCloud, or any mail provider. It does not send real email or fetch live messages. The compose action creates a local preview item only. Never enter provider passwords into this demo.
+This is a **front-end preview** until the backend is deployed and provider OAuth credentials are configured. The inbox starts empty rather than showing fake emails or placeholder accounts. GitHub Pages alone cannot run the API. Never enter provider passwords into the preview.
 
 A production release needs a secure backend, OAuth-based provider authorization, token storage and refresh, provider API integration, sending/receiving, and appropriate privacy/security controls. Provider accounts do not provide unlimited storage automatically.
 
@@ -80,3 +80,16 @@ A Node.js API prototype now lives in `server/index.js`. It provides OAuth entry 
 API routes include `GET /api/status`, `GET /api/google/messages`, `POST /api/google/send`, `GET /api/microsoft/messages`, and `POST /api/microsoft/send`.
 
 **Not production-ready yet:** OAuth tokens are kept in server memory and are lost on restart; the default Express session store is also memory-only. Before public use, replace both with secure persistent stores, add rate limiting, CSRF/origin protection, token encryption/rotation, attachment and MIME handling, refresh-token renewal, tests, and a production hosting configuration. Never commit `.env` or real credentials. The GitHub Pages site alone cannot run this backend.
+
+
+## Deploy the unified app backend
+
+A Render Blueprint is included as `render.yaml`. It deploys the Node server and serves the same UI and API from one origin, which is required for the current session-based OAuth prototype.
+
+1. Open [Render](https://render.com/) and choose **New → Blueprint**.
+2. Connect this repository and let Render read `render.yaml`.
+3. In the Google Cloud Console, enable the Gmail API and create a **Web application** OAuth client. Add the exact Render URL plus `/auth/google/callback` as an authorized redirect URI.
+4. In Microsoft Entra, register a web app and add the exact Render URL plus `/auth/microsoft/callback` as a redirect URI. Set delegated permissions for `User.Read`, `Mail.Read`, and `Mail.Send`.
+5. Enter the Google and Microsoft client IDs/secrets in the Render service environment. Do not put secrets in GitHub files. Use the Render URL as the main app URL after deployment.
+
+**Important limitations:** this is still a prototype, not ready for public production use. Its current session/token stores are in memory and are not durable or production-hardened. Google and Microsoft are the only provider adapters implemented in the backend right now. Yahoo and iCloud need their own supported auth/mail integrations; Proton Mail requires a supported Proton-specific approach (often Proton Mail Bridge in compatible desktop setups). They will not connect just because a button exists. The UI explains when those providers are not configured rather than adding fake accounts.
