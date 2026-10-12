@@ -106,7 +106,7 @@ let accounts=JSON.parse(localStorage.getItem("memail-accounts")||"null")||[];
 let view="inbox",filter="all",currentId=null,query="";
 const $=id=>document.getElementById(id);
 const selected=new Set();
-const save=()=>{localStorage.setItem("memail-messages",JSON.stringify(messages));localStorage.setItem("memail-accounts",JSON.stringify(accounts));};
+const save=()=>{localStorage.setItem("memail-messages",JSON.stringify(messages.filter(m=>!m.providerId)));localStorage.setItem("memail-accounts",JSON.stringify(accounts));};
 // Remove the old demo inbox and placeholder addresses so they are never mistaken for real mail.
 if(messages.some(m=>String(m.email||"").endsWith(".example"))){messages=[];localStorage.setItem("memail-messages","[]");}
 if(accounts.some(a=>["you@gmail.com","you@yahoo.com","you@outlook.com"].includes(String(a.email||"").toLowerCase()))){accounts=accounts.filter(a=>!["you@gmail.com","you@yahoo.com","you@outlook.com"].includes(String(a.email||"").toLowerCase()));localStorage.setItem("memail-accounts",JSON.stringify(accounts));}
@@ -146,6 +146,28 @@ $("saveDraft").onclick=()=>saveMessage("drafts");
 $("composeForm").onsubmit=e=>{e.preventDefault();if(!$("toField").value.trim()){toast("Add a recipient first");return}saveMessage("sent")};
 document.querySelectorAll("[data-provider]").forEach(button=>button.addEventListener("click",async()=>{const provider=button.dataset.provider;const help=$("connectHelp");if(provider==="google"||provider==="microsoft"){help.textContent="Checking secure connection…";try{const response=await fetch("/api/status",{credentials:"same-origin"});if(!response.ok)throw new Error("not available");const status=await response.json();const ready=provider==="google"?status.googleConfigured:status.microsoftConfigured;if(ready){location.href=provider==="google"?"/auth/google":"/auth/microsoft";return;}help.textContent=(provider==="google"?"Google":"Microsoft")+" sign-in code exists in the repository, but the backend is not configured/hosted at this website yet. GitHub Pages cannot run the API. No account was added.";}catch{help.textContent="The secure MeMail backend is not reachable from this GitHub Pages site yet. The provider button will work after the backend is deployed and its URL/configuration is connected. No account was added.";}return;}const names={yahoo:"Yahoo Mail needs a supported authorization/API integration.",icloud:"Apple iCloud Mail needs a secure supported mail integration.",proton:"Proton Mail needs its supported provider-specific integration; it cannot be connected by adding an email label alone."};help.textContent=names[provider]+" This is not enabled yet, so no fake account has been added.";}));
 document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal-backdrop.show").forEach(m=>hideModal(m.id));if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("search").focus()}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="n"){e.preventDefault();$("composeBtn").click()}});
+async function syncConnectedMailboxes(){
+  try{
+    const statusResponse=await fetch("/api/status",{credentials:"same-origin"});
+    if(!statusResponse.ok)throw new Error("API not hosted here");
+    const status=await statusResponse.json();
+    const jobs=[];
+    if(status.googleConnected)jobs.push(fetch("/api/google/messages?limit=50",{credentials:"same-origin"}).then(r=>r.ok?r.json():Promise.reject(new Error("Google inbox unavailable"))).then(d=>({provider:"Gmail",messages:d.messages||[]})));
+    if(status.microsoftConnected)jobs.push(fetch("/api/microsoft/messages?limit=50",{credentials:"same-origin"}).then(r=>r.ok?r.json():Promise.reject(new Error("Microsoft inbox unavailable"))).then(d=>({provider:"Outlook",messages:d.messages||[]})));
+    const results=await Promise.allSettled(jobs);
+    const live=[];
+    for(const result of results){if(result.status!=="fulfilled")continue;const {provider,messages:items}=result.value;for(const item of items){const stamp=item.date||item.receivedDateTime||"";let dateLabel="";try{dateLabel=stamp?new Date(stamp).toLocaleString(): "Recently";}catch{dateLabel="Recently";}const from=String(item.from||"");const email=provider==="Outlook"?from:(from.match(/<([^>]+)>/)||[])[1]||from;live.push({id:live.length+1,providerId:item.id,provider,from:from.replace(/\s*<[^>]+>/,"")||email||provider,email,subject:item.subject||"(no subject)",snippet:item.snippet||"",body:item.snippet||"Open this message in your provider for the full message body.",time:dateLabel,date:dateLabel,account:provider,category:"work",unread:Boolean(item.unread),star:Boolean(item.starred),support:false,folder:"inbox",color:provider==="Gmail"?"#e9e6ff":"#e0edff",initial:(from||provider).charAt(0).toUpperCase()});}}
+    const drafts=messages.filter(m=>!m.providerId&&m.folder==="drafts");
+    messages=[...live,...drafts];
+    accounts=[];
+    if(status.googleConnected)accounts.push({provider:"Gmail",email:status.googleEmail||"Connected mailbox"});
+    if(status.microsoftConnected)accounts.push({provider:"Outlook",email:status.microsoftEmail||"Connected mailbox"});
+    save();render();
+    const banner=document.querySelector(".demo-banner");
+    if(banner){banner.innerHTML=live.length?'<span>✓</span><div><b>Unified inbox connected:</b> Showing '+live.length+' real message(s) from your connected Gmail and Outlook mailboxes. Messages are merged into one list.</div>':'<span>ⓘ</span><div><b>Mailbox connected:</b> Sign-in worked, but no inbox messages were returned. Try refresh or reconnect your account.</div>';}
+  }catch{ /* GitHub Pages is static; the API becomes available on the hosted backend. */ }
+}
 render();
+syncConnectedMailboxes();
 </script>
 </body></html>
