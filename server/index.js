@@ -49,14 +49,29 @@ function requireMicrosoft(req, res, next) {
   req.msToken = token.accessToken;
   next();
 }
-app.get("/api/status", (req, res) => res.json({
-  mode: "backend-preview",
-  googleConfigured: googleConfigured(),
-  microsoftConfigured: msConfigured(),
-  googleConnected: googleTokens.has(req.sessionID),
-  microsoftConnected: microsoftTokens.has(req.sessionID),
-  note: "This prototype keeps OAuth tokens in server memory. A server restart disconnects accounts."
-}));
+app.get("/api/status", async (req, res) => {
+  const googleToken = googleTokens.get(req.sessionID);
+  const microsoftToken = microsoftTokens.get(req.sessionID);
+  let googleEmail = null;
+  if (googleToken) {
+    try {
+      const auth = googleClient(); auth.setCredentials(googleToken);
+      const profile = await google.gmail({ version: "v1", auth }).users.getProfile({ userId: "me" });
+      googleEmail = profile.data.emailAddress || null;
+    } catch (e) { console.error("Google profile lookup failed", e.message); }
+  }
+  const microsoftEmail = microsoftToken?.account?.username || null;
+  res.json({
+    mode: "backend-preview",
+    googleConfigured: googleConfigured(),
+    microsoftConfigured: msConfigured(),
+    googleConnected: Boolean(googleToken),
+    microsoftConnected: Boolean(microsoftToken && microsoftToken.accessToken),
+    googleEmail,
+    microsoftEmail,
+    note: "Prototype tokens and sessions are stored in server memory; a server restart disconnects accounts."
+  });
+});
 
 app.get("/auth/google", (req, res) => {
   if (!googleConfigured()) return res.status(503).send("Google OAuth is not configured. Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to the server environment.");
