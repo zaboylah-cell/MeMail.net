@@ -126,7 +126,7 @@ $("selectAll").addEventListener("change",e=>{getList().forEach(m=>e.target.check
 $("bulkbar").addEventListener("click",e=>{const b=e.target.closest("[data-bulk]");if(!b)return;const ids=[...selected];if(!ids.length){toast("Select at least one message");return}const action=b.dataset.bulk;messages.forEach(m=>{if(!ids.includes(m.id))return;if(action==="read")m.unread=false;else if(action==="unread")m.unread=true;else m.folder=action});selected.clear();save();render();toast(action==="trash"?"Moved selected messages to trash":action==="spam"?"Reported selected messages as spam":action==="snoozed"?"Selected messages snoozed":"Updated selected messages");});
 $("mailList").addEventListener("click",e=>{const star=e.target.closest("[data-star]");if(star){e.stopPropagation();const m=messages.find(x=>x.id===+star.dataset.star);m.star=!m.star;save();render();return}if(e.target.matches("[data-check]")){e.stopPropagation();return}const row=e.target.closest("[data-id]");if(row)openMessage(+row.dataset.id)});
 $("search").addEventListener("input",e=>{query=e.target.value.trim().toLowerCase();render()});
-$("refreshBtn").onclick=()=>{render();toast("Preview refreshed")};
+$("refreshBtn").onclick=async()=>{await syncConnectedMailboxes();render();toast("Inbox refreshed")};
 $("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({messages,accounts},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="memail-preview.json";a.click();URL.revokeObjectURL(a.href);toast("Preview data exported")};
 $("backBtn").onclick=closeReader;
 $("readerStar").onclick=()=>{const m=messages.find(x=>x.id===currentId);if(m){m.star=!m.star;save();openMessage(m.id)}};
