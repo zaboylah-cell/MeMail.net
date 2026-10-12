@@ -63,3 +63,20 @@ A secure multi-provider client needs provider-authorized sign-in (OAuth where su
 5. Add provider-specific integrations and package desktop/mobile apps only after the core sync is tested.
 
 Do not enter email passwords into the current preview. The native installer links are placeholders until real packages are built.
+
+
+## Backend prototype (Google + Microsoft)
+
+A Node.js API prototype now lives in `server/index.js`. It provides OAuth entry points for Google and Microsoft, inbox-list endpoints, send-message endpoints, a connection status endpoint, and disconnect routes. The frontend hosted on GitHub Pages remains a static preview; it does not automatically run this API.
+
+### Run locally
+
+1. Install Node.js 20 or newer.
+2. Copy `.env.example` to `.env` and set a long random `SESSION_SECRET`.
+3. Register a Google OAuth web client in Google Cloud, enable the Gmail API, and set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. Add `http://localhost:3000/auth/google/callback` as an authorized redirect URI.
+4. In Microsoft Entra, register a web app and add `http://localhost:3000/auth/microsoft/callback` as a redirect URI. Configure delegated `Mail.Read`, `Mail.Send`, and `User.Read` permissions and set the three Microsoft environment variables.
+5. Run `npm install`, then `npm start`. Visit `http://localhost:3000/auth/google` or `/auth/microsoft` to start sign-in.
+
+API routes include `GET /api/status`, `GET /api/google/messages`, `POST /api/google/send`, `GET /api/microsoft/messages`, and `POST /api/microsoft/send`.
+
+**Not production-ready yet:** OAuth tokens are kept in server memory and are lost on restart; the default Express session store is also memory-only. Before public use, replace both with secure persistent stores, add rate limiting, CSRF/origin protection, token encryption/rotation, attachment and MIME handling, refresh-token renewal, tests, and a production hosting configuration. Never commit `.env` or real credentials. The GitHub Pages site alone cannot run this backend.
