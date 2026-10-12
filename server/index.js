@@ -61,7 +61,7 @@ app.get("/api/status", (req, res) => res.json({
 app.get("/auth/google", (req, res) => {
   if (!googleConfigured()) return res.status(503).send("Google OAuth is not configured. Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to the server environment.");
   const state = crypto.randomBytes(24).toString("hex");
-  states.set(req.sessionID, { provider: "google", state, created: Date.now() });
+  req.session.authStarted = true;\n  states.set(req.sessionID, { provider: "google", state, created: Date.now() });
   res.redirect(googleClient().generateAuthUrl({
     access_type: "offline", prompt: "consent", state,
     scope: ["openid", "email", "profile", "https://www.googleapis.com/auth/gmail.readonly", "https://www.googleapis.com/auth/gmail.send"]
@@ -102,7 +102,7 @@ app.post("/api/google/send", requireGoogle, async (req, res) => {
 app.get("/auth/microsoft", async (req, res) => {
   if (!msConfigured()) return res.status(503).send("Microsoft OAuth is not configured. Add MICROSOFT_CLIENT_ID, MICROSOFT_CLIENT_SECRET and MICROSOFT_TENANT_ID.");
   const state = crypto.randomBytes(24).toString("hex");
-  states.set(req.sessionID, { provider: "microsoft", state, created: Date.now() });
+  req.session.authStarted = true;\n  states.set(req.sessionID, { provider: "microsoft", state, created: Date.now() });
   try { const url = await msClient().getAuthCodeUrl({ scopes: ["openid", "profile", "email", "offline_access", "User.Read", "Mail.Read", "Mail.Send"], redirectUri: `${BASE_URL}/auth/microsoft/callback`, state }); res.redirect(url); }
   catch (e) { console.error("Microsoft auth URL failed", e.message); res.status(500).send("Could not start Microsoft sign-in."); }
 });
