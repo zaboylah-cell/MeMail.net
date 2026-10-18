@@ -4,7 +4,7 @@
 
 ## Current features
 - Inbox, Starred, Sent, Drafts, Archive and Trash views
-- Search across sample messages
+- Search across messages from connected mailboxes and locally saved preview drafts
 - All mail / unread / support / personal / work filters
 - Read messages, toggle stars, archive and move messages to trash
 - Compose preview messages and save drafts
@@ -14,9 +14,9 @@
 - Responsive layout for desktop and mobile
 
 ## Important: current status
-This is a **front-end preview** until the backend is deployed and provider OAuth credentials are configured. The inbox starts empty rather than showing fake emails or placeholder accounts. GitHub Pages alone cannot run the API. Never enter provider passwords into the preview.
+This is a **front-end preview** until the backend is deployed and provider OAuth credentials are configured. The inbox starts empty rather than showing fake emails or placeholder accounts. GitHub Pages alone cannot run the API. Never enter provider passwords into the preview. Compose creates a local preview message/draft; it does not send real email.
 
-A production release needs a secure backend, OAuth-based provider authorization, token storage and refresh, provider API integration, sending/receiving, and appropriate privacy/security controls. Provider accounts do not provide unlimited storage automatically.
+A production release still needs a deployed backend, OAuth-based provider authorization, persistent encrypted token/session storage, token refresh, provider API integration, real sending/receiving, and privacy/security review. The current server keeps OAuth tokens in memory, so reconnects may be needed after a restart; it is not yet a production-grade mail service. Provider accounts do not provide unlimited storage automatically.
 
 ## Run
 Open `index.html` in a modern browser. No build step or third-party dependencies are required.
