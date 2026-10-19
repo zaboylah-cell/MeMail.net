@@ -31,7 +31,7 @@ label{display:block;font-size:12px;font-weight:750;margin:14px 0 7px}input{width
   <div class="back"><a href="./index.html">← Back to inbox preview</a></div><div class="footer">MeMail.net · Your mail, together.</div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./auth-config.js"></script>
+<script src="./auth-config.js?v=3"></script>
 <script>
 const $=id=>document.getElementById(id);let mode="signin";
 function setMode(next){mode=next;$("signinTab").classList.toggle("active",mode==="signin");$("signupTab").classList.toggle("active",mode==="signup");$("title").textContent=mode==="signin"?"Sign in to MeMail":"Create your MeMail account";$("intro").textContent=mode==="signin"?"One home for your email. Sign in to continue or connect a mailbox.":"Create your account to bring your email together in one place.";$("emailContinue").textContent=mode==="signin"?"Sign in":"Create account";$("password").autocomplete=mode==="signin"?"current-password":"new-password";$("notice").classList.remove("show")}
